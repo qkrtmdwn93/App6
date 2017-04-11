@@ -1,6 +1,8 @@
 package com.example.sw_center_02.application6;
 
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +19,8 @@ public class AddActivity extends AppCompatActivity {
     EditText etTel;
     Button btnCancel;
     Button btnAdd;
-    Data data;
-
+    Data[] data;
+    int catNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,15 +35,16 @@ public class AddActivity extends AppCompatActivity {
         Button btnCancel = (Button)findViewById(R.id.btnCancel);
         Button btnAdd = (Button)findViewById(R.id.btnAdd);
 
-        data = new Data();
-        final Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        data[catNum] = new Data();
+        Intent intent = getIntent();
+        catNum = intent.getIntExtra("number", 0);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +53,25 @@ public class AddActivity extends AppCompatActivity {
                     Toast.makeText(getBaseContext(), "값을 입력해주세요", Toast.LENGTH_SHORT);
                 }
                 else{
-                    intent.getExtras()
+                    Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                    data[catNum].setName(Etname.getText().toString());
+                    data[catNum].setMenu(new String[]{Etmenu1.getText().toString(), Etmenu2.getText().toString(), Etmenu3.getText().toString()});
+                    data[catNum].setTel(EtTel.getText().toString());
+                    data[catNum].setHomepage(Ethomepage.getText().toString());
+                    data[catNum].setCategoryNum(catNum);
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    Calendar calendar = Calendar.getInstance();
+                    String today = sdf.format(calendar.getTime());
+                    data[catNum].setDate(today);
+                    intent.putExtra("name", data[catNum].getName());
+                    intent.putExtra("menu", data[catNum].getMenu());
+                    intent.putExtra("tel", data[catNum].getTel());
+                    intent.putExtra("name", data[catNum].getName());
+                    intent.putExtra("name", data[catNum].getName());
+                    intent.putExtra("name", data[catNum].getName());
+                    setResult(RESULT_OK);
+                    finish();
                 }
             }
         });

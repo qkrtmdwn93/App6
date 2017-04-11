@@ -7,7 +7,7 @@ package com.example.sw_center_02.application6;
 public class Data {
     private String name;
     private String tel;
-    private String menu[];
+    private String menu[] = new String[3];
     private String homepage;
     private String date;
     private int categoryNum;
